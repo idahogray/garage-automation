@@ -1,27 +1,43 @@
 #include <NewPing.h>
 
-#define PING_PIN 12
-#define MAX_DISTANCE 200
-#define LED_PIN 13
+const int BAY_1_PING_PIN = 12;
+const int BAY_1_LED_PIN = 13;
 
-NewPing sonar(PING_PIN, PING_PIN, MAX_DISTANCE);
+const int BAY_2_PING_PIN = 10;
+const int BAY_2_LED_PIN = 11;
+
+const int MAX_DISTANCE = 200;
+
+NewPing bay1(BAY_1_PING_PIN, BAY_1_PING_PIN, MAX_DISTANCE);
+NewPing bay2(BAY_2_PING_PIN, BAY_2_PING_PIN, MAX_DISTANCE);
 
 void setup()
 {
   Serial.begin(115200);
-  pinMode(LED_PIN, OUTPUT);
+  pinMode(BAY_1_LED_PIN, OUTPUT);
+  pinMode(BAY_2_LED_PIN, OUTPUT);
 }
 
 void loop()
 {
   delay(500);
-  unsigned int uS = sonar.ping();
-  unsigned int distance_cm = uS / US_ROUNDTRIP_CM;
-  Serial.print("Ping: ");
-  Serial.print(distance_cm);
+  unsigned int bay1_uS = bay1.ping();
+  unsigned int bay1_distance_cm = bay1_uS / US_ROUNDTRIP_CM;
+  unsigned int bay2_uS = bay2.ping();
+  unsigned int bay2_distance_cm = bay2_uS / US_ROUNDTRIP_CM;
+  Serial.print("Bay 1 Ping: ");
+  Serial.print(bay1_distance_cm);
   Serial.println("cm");
-  if (distance_cm < 50)
-    digitalWrite(LED_PIN, HIGH);
+  Serial.print("Bay 2 Ping: ");
+  Serial.print(bay2_distance_cm);
+  Serial.println("cm");
+  if (bay1_distance_cm < 50)
+    digitalWrite(BAY_1_LED_PIN, HIGH);
   else
-    digitalWrite(LED_PIN, LOW);
+    digitalWrite(BAY_1_LED_PIN, LOW);
+    
+  if (bay2_distance_cm < 50)
+    digitalWrite(BAY_2_LED_PIN, HIGH);
+  else
+    digitalWrite(BAY_2_LED_PIN, LOW);
 }
