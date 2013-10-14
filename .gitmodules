@@ -1,0 +1,3 @@
+[submodule "libraries/simplemodbusng"]
+	path = libraries/simplemodbusng
+	url = https://github.com/angeloc/simplemodbusng.git
