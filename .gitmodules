@@ -1,3 +1,6 @@
 [submodule "libraries/simplemodbusng"]
 	path = libraries/simplemodbusng
 	url = https://github.com/angeloc/simplemodbusng.git
+[submodule "libraries/DHT"]
+	path = libraries/DHT
+	url = https://github.com/adafruit/DHT-sensor-library
