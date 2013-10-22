@@ -35,10 +35,21 @@ if __name__ == '__main__':
 
             print("Updating Feed")
             feed.datastreams = [
-                xively.Datastream(id='Bay_1_Distance_CM', current_value = 1, at = datetime.datetime.utcnow()),
-                xively.Datastream(id='Bay_2_Distance_CM', current_value = 2, at = datetime.datetime.utcnow()),
-                xively.Datastream(id='Temperature_C', current_value = 3, at = datetime.datetime.utcnow()),
-                xively.Datastream(id='Temperature_F', current_value = 4, at = datetime.datetime.utcnow()),
+                xively.Datastream(id='Bay_1_Distance_CM', 
+                    current_value = rr.registers[3], 
+                    at = datetime.datetime.utcnow()),
+                xively.Datastream(id='Bay_2_Distance_CM', 
+                    current_value = rr.registers[4], 
+                    at = datetime.datetime.utcnow()),
+                xively.Datastream(id='Temperature_C', 
+                    current_value = rr.registers[1] / 100., 
+                    at = datetime.datetime.utcnow()),
+                xively.Datastream(id='Temperature_F', 
+                    current_value = rr.registers[2] / 100., 
+                    at = datetime.datetime.utcnow()),
+                xively.Datastream(id='Humidity', 
+                    current_value = rr.registers[0] / 100., 
+                    at = datetime.datetime.utcnow()),
             ]
             feed.update()
             time.sleep(10.0)
