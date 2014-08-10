@@ -28,7 +28,11 @@ if __name__ == '__main__':
             client = ModbusClient(method='rtu', port='/dev/ttyAMA0', baudrate=9600, timeout=2)
             print("Client Connected: %s" % client.connect())
 
-            rr = client.read_holding_registers(0, NUM_REGISTERS, unit=100)
+            try:
+                rr = client.read_holding_registers(0, NUM_REGISTERS, unit=100)
+            except: 
+	        print("No Response from server")
+                continue
             print("Exception Response: %s" % rr.function_code < 0x80)
             for i in range(NUM_REGISTERS):
                 print("Register %s: %s" % (i, rr.registers[i]))
