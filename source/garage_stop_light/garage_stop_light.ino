@@ -9,9 +9,11 @@ const int DHT_PIN = 2;
 
 const int BAY_1_PING_PIN = 12;
 const int BAY_1_LED_PIN = 13;
+const int BAY_1_DOOR_CONTROL_PIN = 11;
 
-const int BAY_2_PING_PIN = 10;
-const int BAY_2_LED_PIN = 11;
+const int BAY_2_PING_PIN = 9;
+const int BAY_2_LED_PIN = 10;
+const int BAY_2_DOOR_CONTROL_PIN = 8;
 
 const int MAX_DISTANCE = 200;
 
@@ -29,6 +31,8 @@ enum
   BAY_2_DISTANCE_CM,
   BAY_1_LED_STATE,
   BAY_2_LED_STATE,
+  BAY_1_DOOR_CONTROL,
+  BAY_2_DOOR_CONTROL,
   TOTAL_ERRORS,
   TOTAL_REGISTERS_SIZE
 };
@@ -40,6 +44,8 @@ void setup()
   Serial.begin(115200);
   pinMode(BAY_1_LED_PIN, OUTPUT);
   pinMode(BAY_2_LED_PIN, OUTPUT);
+  pinMode(BAY_1_DOOR_CONTROL_PIN, OUTPUT);
+  pinMode(BAY_2_DOOR_CONTROL_PIN, OUTPUT);
   
   Serial.println("Configuring Modbus");
   modbus_configure(9600, 100, 1, TOTAL_REGISTERS_SIZE);
@@ -101,6 +107,32 @@ void loop()
   holding_registers[BAY_2_DISTANCE_CM] = bay2_distance_cm;
   holding_registers[BAY_1_LED_STATE] = digitalRead(BAY_1_LED_PIN);
   holding_registers[BAY_2_LED_STATE] = digitalRead(BAY_2_LED_PIN);
+
+  if (holding_registers[BAY_1_DOOR_CONTROL] > 0)
+  {
+    Serial.println("Bay 1 Door Control Set");
+    digitalWrite(BAY_1_DOOR_CONTROL_PIN, HIGH);
+    holding_registers[BAY_1_DOOR_CONTROL] = 0;
+    delay(250);
+    digitalWrite(BAY_1_DOOR_CONTROL_PIN, LOW);
+  }
+  else
+  {
+    Serial.println("Bay 1 Door Control Reset");
+  }
+  if (holding_registers[BAY_2_DOOR_CONTROL] > 0)
+  {
+    Serial.println("Bay 2 Door Control Set");
+    digitalWrite(BAY_2_DOOR_CONTROL_PIN, HIGH);
+    holding_registers[BAY_2_DOOR_CONTROL] = 0;
+    delay(250);
+    digitalWrite(BAY_2_DOOR_CONTROL_PIN, LOW);
+  }
+  else
+  {
+    Serial.println("Bay 2 Door Control Reset");
+  }
+    
   
   Serial.print("Total Errors: ");
   Serial.println(holding_registers[TOTAL_ERRORS]);
