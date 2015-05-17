@@ -44,6 +44,8 @@ void setup()
   Serial.begin(115200);
   pinMode(BAY_1_LED_PIN, OUTPUT);
   pinMode(BAY_2_LED_PIN, OUTPUT);
+  digitalWrite(BAY_1_DOOR_CONTROL_PIN, HIGH);
+  digitalWrite(BAY_2_DOOR_CONTROL_PIN, HIGH);
   pinMode(BAY_1_DOOR_CONTROL_PIN, OUTPUT);
   pinMode(BAY_2_DOOR_CONTROL_PIN, OUTPUT);
   
@@ -111,10 +113,10 @@ void loop()
   if (holding_registers[BAY_1_DOOR_CONTROL] > 0)
   {
     Serial.println("Bay 1 Door Control Set");
-    digitalWrite(BAY_1_DOOR_CONTROL_PIN, HIGH);
+    digitalWrite(BAY_1_DOOR_CONTROL_PIN, LOW);
     holding_registers[BAY_1_DOOR_CONTROL] = 0;
     delay(250);
-    digitalWrite(BAY_1_DOOR_CONTROL_PIN, LOW);
+    digitalWrite(BAY_1_DOOR_CONTROL_PIN, HIGH);
   }
   else
   {
@@ -123,10 +125,10 @@ void loop()
   if (holding_registers[BAY_2_DOOR_CONTROL] > 0)
   {
     Serial.println("Bay 2 Door Control Set");
-    digitalWrite(BAY_2_DOOR_CONTROL_PIN, HIGH);
+    digitalWrite(BAY_2_DOOR_CONTROL_PIN, LOW);
     holding_registers[BAY_2_DOOR_CONTROL] = 0;
     delay(250);
-    digitalWrite(BAY_2_DOOR_CONTROL_PIN, LOW);
+    digitalWrite(BAY_2_DOOR_CONTROL_PIN, HIGH);
   }
   else
   {
